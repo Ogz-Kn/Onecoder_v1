@@ -1,0 +1,40 @@
+/*
+ * nice!nano (nRF52840) + AS5600 + ZMK
+ *
+ * Not: ZMK boş (tuşsuz) kscan istemez. Bu yüzden tek adet DUMMY kscan girişi
+ * eklenmiştir. Fiziksel switch takmak zorunda değilsiniz; pin pull-up ile boşta kalabilir.
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+    };
+
+    kscan0: kscan_dummy {
+        compatible = "zmk,kscan-gpio-direct";
+        input-gpios = <&gpio0 17 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        label = "KSCAN_DUMMY";
+    };
+};
+
+/* AS5600 I2C (0x36) */
+&i2c0 {
+    status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>;
+
+    /*
+     * Pinleri kullandığınız kablolamaya göre değiştirin.
+     * Aşağıdaki örnek, nRF52840 üzerinde genel amaçlı iki pine atanmıştır.
+     */
+    sda-pin = <6>;
+    scl-pin = <8>;
+
+    as5600: as5600@36 {
+        compatible = "ams,as5600";
+        reg = <0x36>;
+        status = "okay";
+        label = "AS5600";
+    };
+};

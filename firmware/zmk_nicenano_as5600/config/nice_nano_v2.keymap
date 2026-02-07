@@ -1,0 +1,25 @@
+/*
+ * ZMK keymap (dummy + encoder behavior)
+ *
+ * Dummy key: ZMK'nin kscan beklentisini karşılamak için F24 gönderir.
+ * AS5600 dönüşü: saat yönü / saat yönü tersi için LEFT/RIGHT örneği.
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &kp F24
+            >;
+
+            sensor-bindings = <
+                &inc_dec_kp RIGHT LEFT
+            >;
+        };
+    };
+};
